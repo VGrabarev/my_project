@@ -1,0 +1,27 @@
+@import url("./normalize/style.scss");
+@import url("./components/Header/style.scss");
+@import url("./components/Main/style.scss");
+@import url("./components/Footer/style.scss");
+@import url("./components/AdList/style.scss");
+@import url("./components/MyProfile/style.scss");
+@import url("./components/CreateAd/style.scss");
+
+.visually-hidden:not(:focus):not(:active), 
+input[type=checkbox].visually-hidden, 
+input[type=radio].visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    -webkit-clip-path: inset(100%);
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+#root {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
