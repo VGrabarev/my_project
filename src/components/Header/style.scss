@@ -1,0 +1,194 @@
+.header {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 2px solid rgb(136, 136, 136);
+    padding: 10px 0;
+    background-color: rgba(128, 128, 128, 0.2);
+    &__hamburger-button-container {
+        display: none;
+    }
+    &__logo {
+        width: 140px;
+        font-size: 24px;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+    &__nav-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    &__nav-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+    &__button-theme-toggle {
+        position: relative;
+        border: 2px solid #000;
+        border-radius: 15px;
+        padding: 4px 2px;
+        background-color: rgba(137, 137, 136, 0.4);
+        &::before {
+            content: "";
+            display: block;
+            width: 19px;
+            height: 19px;
+            position: absolute;
+            top: 50%;
+            right: 2px;
+            transform: translateY(-50%);
+            border: 2px solid rgb(71, 71, 71);
+            border-radius: 50%;
+            background-color: rgb(185, 185, 185);
+        }
+        &--left::before {
+            right: auto;
+            left: 2px;
+        }
+
+    }
+    &__lang-change-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    &__lang-change-button {
+        color: inherit;
+        border: none;
+        padding: 0;
+        background-color: inherit;
+        &:disabled {
+            color: rgba(0, 0, 0, 0.4);
+        }
+    }
+}
+
+@media (max-width: 680px) {
+    .header {
+        &__hamburger-button-container {
+            display: block;
+            width: 30%;
+            text-align: center;
+        }
+        &__hamburger-button {
+            position: relative;
+            width: 40px;
+            height: 32px;
+            background-color: inherit;
+            border: 0;
+            padding: 0;
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: block;
+                width: 40px;
+                height: 4px;
+                background-color: black;
+                box-shadow: 0 14px 0 black;
+            }
+            &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                display: block;
+                width: 40px;
+                height: 4px;
+                background-color: black;
+            }
+            &--close {
+                &::before {
+                    top: 50%;
+                    transform: rotate(-45deg)
+                               translateY(-50%);
+                    box-shadow: none;
+                }
+                &::after {
+                    bottom: 50%;
+                    transform: rotate(45deg)
+                               translateY(50%);
+                }
+            }
+        }
+        &__logo {
+            text-align: center;
+            margin: 0 auto;
+        }
+        &__nav {
+            display: none;
+            width: 100%;
+            text-align: center;
+            &--open {
+                display: block;
+                order: 1;
+            }
+        }
+        &__nav-link {
+            padding-bottom: 7px;
+        }
+        &__site-setting-container {
+            width: 30%;
+        }
+        &__button-theme-toggle {
+            display: block;
+            margin: 0 auto 7px;
+        }
+        &__lang-change-list {
+            text-align: center;
+        }
+    }
+}
+
+@media (min-width: 681px) {
+    .header {
+        padding: 15px 30px;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        &__logo {
+            font-size: 28px;
+        }
+        &__nav-list {
+            display: flex;
+            flex-wrap: nowrap;
+            font-size: 18px;
+        }
+        &__nav-link {
+            padding: 5px 10px;
+            transition: opacity 0.3s;
+            &:hover {
+                opacity: 0.6;
+            }
+        }
+        &__button-theme-toggle {
+            cursor: pointer;
+        }
+        &__lang-change-button {
+            cursor: pointer;
+            &:disabled {
+                cursor: default;
+            }
+        }
+    }
+}
+
+@media (min-width: 1000px) {
+    .header {
+        padding: 20px 50px;
+        &__nav-link {
+            padding: 5px 15px;
+        }
+        &__site-setting-container {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+        &__lang-change-list {
+            margin-left: 20px;
+        }
+    }
+}

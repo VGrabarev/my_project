@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { siteSettingsReducer } from "./reducers.js";
+import { siteSettingsReducer, authenticationReducer } from "./reducers.js";
 
 let store = configureStore({
     reducer: {
+        auth: authenticationReducer,
         siteSettings: siteSettingsReducer
     }
 })

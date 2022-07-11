@@ -1,6 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { GQL } from "../constants/index.js";
 
-let siteSettings = createSlice({
+let authenticationSlice = createSlice({
+    name: "authentication",
+    initialState: {
+        payload: {}
+    },
+    reducers: {
+
+    },
+    extraReducers: {
+
+    }
+});
+
+let siteSettingsSlice = createSlice({
     name: "siteSettings",
     initialState: {
         language: "ukr",
@@ -16,7 +30,8 @@ let siteSettings = createSlice({
     }
 });
 
-let siteSettingsReducer = siteSettings.reducer;
+let siteSettingsReducer = siteSettingsSlice.reducer;
+let authenticationReducer = authenticationSlice.reducer;
 
-export let {languageToggle, themeToggle} = siteSettings.actions;
-export {siteSettingsReducer};
+export let {languageToggle, themeToggle} = siteSettingsSlice.actions;
+export {siteSettingsReducer, authenticationReducer};
