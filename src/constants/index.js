@@ -24,4 +24,21 @@ const GET_GQL = function(url) {
 
 const GQL = GET_GQL(BACKEND_URL + '/graphql');
 
-export { GQL };
+let jwtDecode = function(token) {
+    let payloadInBase64;
+    let payloadInJson;
+    let payload;
+
+    try {
+        payloadInBase64 = token.split(".")[1];
+        payloadInJson = atob(payloadInBase64);
+        payload = JSON.parse(payloadInJson);
+
+        return payload;
+    }
+    catch(err) {
+
+    }
+};
+
+export { GQL, jwtDecode };

@@ -36,7 +36,7 @@ let Header = function() {
                     </li>
                     <li className="header__nav-item">
                         <Link className="header__nav-link"
-                              to="/my-profile">
+                              to="/profile">
                             {LANGUAGE[lang].navMyProfile}
                         </Link>
                     </li>

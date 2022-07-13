@@ -18,6 +18,7 @@ const LANGUAGE = {
         passwordChangeForm: "Форма зміни пароля",
         newPassword: "Новий пароль",
         change: "Змінити",
+        registerError: "Упс..., якась помилка, спробуй інший логін",
     },
     en: {
         logo: "Super logo",
@@ -38,6 +39,7 @@ const LANGUAGE = {
         passwordChangeForm: "Password change form",
         newPassword: "New password",
         change: "Change",
+        registerError: "Oops..., some error, try another login",
     }
 }
 

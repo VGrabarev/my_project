@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { userFullLogin } from "../../store/reducers.js";
 import LANGUAGE from "../../language/index.js";
 
 
@@ -37,7 +38,9 @@ let Login = function() {
                            placeholder={LANGUAGE[lang].password}/>
                 </li>
             </ul>
-            <button className="login__button">
+            <button className="login__button"
+                    onClick={() => dispatch(userFullLogin({login: login.current.value, 
+                                                           password: password.current.value}))}>
                 {LANGUAGE[lang].enter}
             </button>
             <ul className="login__other-list">

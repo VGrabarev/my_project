@@ -26,6 +26,11 @@
             background-color: rgb(179, 179, 179);
         }
     }
+    &__error {
+        font-weight: 500;
+        color: rgb(229, 87, 87);
+        margin-bottom: 15px;
+    }
     &__button {
         cursor: pointer;
         color: inherit;
@@ -44,7 +49,7 @@
 
 @media (min-width: 681px) {
     .registration {
-        width: 300px;
+        width: 340px;
         border: 2px solid rgb(128, 128, 128);
         border-radius: 5px;
         background-color: rgba(215, 215, 215, 0.2);

@@ -1,9 +1,12 @@
 import { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { userFullRegister } from "../../store/reducers.js";
 import LANGUAGE from "../../language/index.js";
 
 let Registration = function() {
+    let registerError = useSelector(state => state.auth.registerFailed);
     let lang = useSelector((state) => state.siteSettings.language);
+    let dispatch = useDispatch();
     let login = useRef("");
     let password = useRef("");
     let passwordRepeat = useRef("");
@@ -46,7 +49,10 @@ let Registration = function() {
                            placeholder={LANGUAGE[lang].repeatThePassword}/>
                 </li>
             </ul>
-            <button className="registration__button">
+            {registerError && <div className="registration__error">{LANGUAGE[lang].registerError}</div>}
+            <button className="registration__button"
+                    onClick={() => dispatch(userFullRegister({login: login.current.value,
+                                                              password: password.current.value}))}>
                 {LANGUAGE[lang].register}
             </button>
         </section>
