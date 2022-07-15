@@ -17,7 +17,7 @@ let userFullLogin = createAsyncThunk(
 
 let userFullRegister = createAsyncThunk(
     "authentication/userFullRegister",
-    async function({login, password}, {dispatch, getState, rejectWithValue}) {
+    async function({login, password}, {dispatch, rejectWithValue}) {
         try {
             let result = await GQL(`mutation newUser($login: String!, $password: String!) {
                 createUser(login: $login, password: $password) {
@@ -44,7 +44,7 @@ let userFullRegister = createAsyncThunk(
 let authenticationSlice = createSlice({
     name: "authentication",
     initialState: {
-        payload: {},
+        payload: localStorage?.authToken ? jwtDecode(localStorage?.authToken) : {},
         registerFailed: false,
     },
     reducers: {
@@ -53,10 +53,9 @@ let authenticationSlice = createSlice({
             state.payload = jwtDecode(action.payload);
             state.registerFailed = false;
         },
-        aboutMe(state) {
-            if(localStorage?.authToken) {
-                state.payload = jwtDecode(localStorage?.authToken);
-            }
+        userLogout(state) {
+            localStorage.removeItem("authToken");
+            state.payload = {};
         }
     },
     extraReducers: {
@@ -66,32 +65,8 @@ let authenticationSlice = createSlice({
     }
 });
 
-let siteSettingsSlice = createSlice({
-    name: "siteSettings",
-    initialState: {
-        language: "ukr",
-        theme: "light"
-    },
-    reducers: {
-        languageToggle(state, action) {
-            state.language = action.payload;
-        },
-        themeToggle(state, action) {
-            action.payload ? state.theme = "dark" : state.theme = "light";
-        }
-    }
-});
-
-let siteSettingsReducer = siteSettingsSlice.reducer;
 let authenticationReducer = authenticationSlice.reducer;
 
-let {languageToggle, themeToggle} = siteSettingsSlice.actions;
-let {userLogin, aboutMe} = authenticationSlice.actions;
+let { userLogin, aboutMe, userLogout } = authenticationSlice.actions;
 
-export {siteSettingsReducer, 
-        authenticationReducer, 
-        languageToggle, 
-        themeToggle,
-        userFullLogin,
-        userFullRegister,
-        aboutMe};
+export { authenticationReducer, aboutMe, userLogout, userFullLogin, userFullRegister };

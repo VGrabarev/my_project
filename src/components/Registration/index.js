@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { userFullRegister } from "../../store/reducers.js";
+import { userFullRegister } from "../../store/authenticationReducer.js";
 import LANGUAGE from "../../language/index.js";
 
 let Registration = function() {

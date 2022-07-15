@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 const LANGUAGE = {
     ukr: {
         logo: "Супер логотип",
@@ -19,6 +21,10 @@ const LANGUAGE = {
         newPassword: "Новий пароль",
         change: "Змінити",
         registerError: "Упс..., якась помилка, спробуй інший логін",
+        advertisement: "Оголошення",
+        adListAnonHidden: `Щоб побачити оголошення потрібно ${<Link to="/login">зайти</Link>} в систему`,
+        price: "Ціна",
+        search: "Пошук"
     },
     en: {
         logo: "Super logo",
@@ -40,6 +46,10 @@ const LANGUAGE = {
         newPassword: "New password",
         change: "Change",
         registerError: "Oops..., some error, try another login",
+        advertisement: "Advertisement",
+        adListAnonHidden: `You need to ${<Link to="/login">log in</Link>} to see the ad`,
+        price: "Price",
+        search: "Search"
     }
 }
 

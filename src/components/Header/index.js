@@ -1,4 +1,4 @@
-import { languageToggle, themeToggle } from "../../store/reducers.js";
+import { languageToggle, themeToggle } from "../../store/siteSettingsReducer.js";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";

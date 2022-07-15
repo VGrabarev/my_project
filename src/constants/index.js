@@ -41,4 +41,4 @@ let jwtDecode = function(token) {
     }
 };
 
-export { GQL, jwtDecode };
+export { GQL, jwtDecode, BACKEND_URL };

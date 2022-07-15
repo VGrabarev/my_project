@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { userFullLogin } from "../../store/reducers.js";
+import { userFullLogin } from "../../store/authenticationReducer.js";
 import LANGUAGE from "../../language/index.js";
 
 
