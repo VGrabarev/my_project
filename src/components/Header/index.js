@@ -6,10 +6,11 @@ import LANGUAGE from "../../language/index.js";
 
 let Header = function() {
     let [lightTheme, setLightTheme] = useState(true);
+    let lang = useSelector((state) => state.siteSettings.language);
+    let userId = useSelector((state) => state.auth.payload.sub.id)
     let themeToggleButton = useRef();
     let hamburgerButton = useRef();
     let nav = useRef();
-    let lang = useSelector((state) => state.siteSettings.language);
     let dispatch = useDispatch();
 
     return (
@@ -36,7 +37,7 @@ let Header = function() {
                     </li>
                     <li className="header__nav-item">
                         <Link className="header__nav-link"
-                              to="/profile">
+                              to={`/profile/${userId}`}>
                             {LANGUAGE[lang].navMyProfile}
                         </Link>
                     </li>

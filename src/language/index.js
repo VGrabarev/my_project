@@ -24,7 +24,13 @@ const LANGUAGE = {
         advertisement: "Оголошення",
         adListAnonHidden: `Щоб побачити оголошення потрібно ${<Link to="/login">зайти</Link>} в систему`,
         price: "Ціна",
-        search: "Пошук"
+        search: "Пошук",
+        owner: "Власник",
+        otherAdByOwner: "Інші оголошення цього автора",
+        noComments: "Коментарів поки немае, станьте першим",
+        enterComment: "Введіть ваш коментар тут",
+        send: "Відправити",
+        comments: "Коментарі",
     },
     en: {
         logo: "Super logo",
@@ -49,7 +55,13 @@ const LANGUAGE = {
         advertisement: "Advertisement",
         adListAnonHidden: `You need to ${<Link to="/login">log in</Link>} to see the ad`,
         price: "Price",
-        search: "Search"
+        search: "Search",
+        owner: "Owner",
+        otherAdByOwner: "Other ads by this author",
+        noComments: "There are no comments yet, be the first",
+        enterComment: "Enter your comment here",
+        send: "Send",
+        comments: "Comments",
     }
 }
 
