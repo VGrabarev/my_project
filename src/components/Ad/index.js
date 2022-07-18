@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { adFindById } from "../../store/promiseReducer.js";
+import { adFindById, newComment } from "../../store/promiseReducer.js";
 import { BACKEND_URL } from "../../constants/index.js";
 import LANGUAGE from "../../language/index.js";
 import Slider from "./Slider/index.js";
@@ -10,11 +10,12 @@ let Ad = function() {
     let adById = useSelector((state) => state.promise.adFindById);
     let lang = useSelector((state) => state.siteSettings.language);
     let {_id} = useParams();
+    let textArea = useRef();
     let dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(adFindById({_id}));
-    }, [_id])
+    }, [])
 
     return (
         <section className="ad">
@@ -40,7 +41,7 @@ let Ad = function() {
                 <h3 className="ad__info-title">{adById.title}</h3>
                 <p className="ad__info-price">{LANGUAGE[lang].price}: {adById.price}</p>
                 <ul className="ad__info-list">
-                    {adById.tags.map((tag, index) => <li className="ad__info-item" key={index}>{tag}</li>)}
+                    {adById.tags ? adById.tags.map((tag, index) => <li className="ad__info-item" key={index}>{tag}</li>) : null}
                 </ul>
                 <p className="ad__info-text">{adById.description}</p>
             </div>
@@ -64,8 +65,19 @@ let Ad = function() {
                 </ul>
                 <div className="ad__textarea-wrapper">
                     <textarea className="ad__textarea"
-                            placeholder={LANGUAGE[lang].enterComment} />
-                    <button className="ad__textarea-submit">{LANGUAGE[lang].send}</button>
+                              ref={textArea}
+                              placeholder={LANGUAGE[lang].enterComment} />
+                    <button className="ad__textarea-submit"
+                            onClick={() => {
+                                dispatch(newComment({
+                                    text: textArea.current.value,
+                                    adId: _id,
+                                    answerToId: adById?.comments && adById?.comments[adById?.comments.length - 1]._id
+                                }))
+                                textArea.current.value = "";
+                            }}>
+                        {LANGUAGE[lang].send}
+                    </button>
                 </div>
             </div>
         </section>

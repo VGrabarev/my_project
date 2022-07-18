@@ -7,7 +7,7 @@ import LANGUAGE from "../../language/index.js";
 let Header = function() {
     let [lightTheme, setLightTheme] = useState(true);
     let lang = useSelector((state) => state.siteSettings.language);
-    let userId = useSelector((state) => state.auth.payload.sub.id)
+    let userId = useSelector((state) => state.auth.payload?.sub?.id)
     let themeToggleButton = useRef();
     let hamburgerButton = useRef();
     let nav = useRef();

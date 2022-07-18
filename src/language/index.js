@@ -31,6 +31,19 @@ const LANGUAGE = {
         enterComment: "Введіть ваш коментар тут",
         send: "Відправити",
         comments: "Коментарі",
+        myProfile: "Мій профіль",
+        userProfile: "Профіль користувача",
+        logout: "Вийти з особистого кабінету",
+        avatarChange: "Змінити аватар",
+        generalInfo: "Загальна інформація",
+        myMessage: "Мої повідомлення",
+        information: "Інформація",
+        nickname: "Нікнейм",
+        phone: "Телефон",
+        address: "Адреса",
+        registered: "Зареєстровано",
+        notAvailable: "Відсутнє",
+
     },
     en: {
         logo: "Super logo",
@@ -62,6 +75,18 @@ const LANGUAGE = {
         enterComment: "Enter your comment here",
         send: "Send",
         comments: "Comments",
+        myProfile: "My profile",
+        userProfile: "User profile",
+        logout: "Exit your personal account",
+        avatarChange: "Avatar change",
+        generalInfo: "General information",
+        myMessage: "My messages",
+        information: "Information",
+        nickname: "Nickname",
+        phone: "Phone",
+        address: "Address",
+        registered: "Registered",
+        notAvailable: "Not available",
     }
 }
 

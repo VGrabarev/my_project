@@ -41,4 +41,18 @@ let jwtDecode = function(token) {
     }
 };
 
-export { GQL, jwtDecode, BACKEND_URL };
+const uploadFile = async function(file) {
+    let fd = new FormData();
+  
+    fd.append("photo", file);
+  
+    const res = await fetch(`${BACKEND_URL}/upload`, {
+      method: "POST",
+      headers: localStorage.authToken ? { Authorization: 'Bearer ' + localStorage.authToken } : {},
+      body: fd
+    });
+  
+    return res.json();
+  };
+
+export { GQL, jwtDecode, BACKEND_URL, uploadFile };

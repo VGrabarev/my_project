@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { GQL } from "../constants/index.js";
+import { GQL, uploadFile } from "../constants/index.js";
 
 let adFind = createAsyncThunk(
     "promise/adFind",
@@ -54,13 +54,86 @@ let adFindById = createAsyncThunk(
     }
 );
 
+let changeAvatar = createAsyncThunk(
+  "promise/changeAvatar",
+  async function({file, id}, {dispatch}) {
+    let res = await uploadFile(file);
+
+    let result = await GQL(`mutation newAvatar($user: UserInput) {
+        UserUpsert(user: $user) {
+          _id, avatar {
+            _id
+          }
+        }
+      }`, {
+        user: {_id: id, avatar: {_id: res._id}}
+      });
+
+    dispatch(aboutUserById({_id: id}));
+
+    return result;
+  }
+);
+
+let newComment = createAsyncThunk(
+  "promise/newComment",
+  async function({text, adId, answerToId}, {dispatch}) {
+    let result = await GQL(`mutation newComment($text: String, $adId: ID, $answerToId: ID) {
+        CommentUpsert(comment: {text: $text, ad: {_id: $adId}, answerTo: {_id: $answerToId}}) {
+          _id
+        }
+      }`, {
+        text: text,
+        adId: adId,
+        answerToId: answerToId
+      });
+
+    dispatch(adFindById({_id: adId}));
+  }
+)
+
+let aboutUserById = createAsyncThunk(
+  "promise/aboutUserById",
+  async function({_id}) {
+    let result = await GQL(`query aboutUser($query:String) {
+        UserFindOne(query: $query) {
+          _id createdAt login nick phones addresses
+          avatar {
+            _id url
+          }
+          incomings {
+            _id createdAt text
+            image {
+              _id url
+            }
+            to {
+              _id login
+            }
+            owner {
+              _id login
+              avatar {
+                _id url
+              }
+            }
+          }
+        }
+      }`, {
+        query: JSON.stringify([{"___owner": _id}])
+      });
+
+    return result;
+  }
+)
+
 let promiseSlice = createSlice({
     name: "promise",
     initialState: {
         adArr: [],
         skip: 0,
         adFindPending: false,
-        adFindById: {images: [], tags: [], comments: []}
+        adFindById: {images: [], tags: [], comments: []},
+        userFindById:  {},
+        changeAvatar: {}
     },
     reducers: {
         clearAd(state) {
@@ -70,15 +143,21 @@ let promiseSlice = createSlice({
     },
     extraReducers: {
         [adFind.fulfilled]: (state, action) => {
-            state.adArr.push(...action.payload.result);
-            state.skip = state.skip + action.payload.limit;
-            state.adFindPending = false;
+          state.adArr.push(...action.payload.result);
+          state.skip = state.skip + action.payload.limit;
+          state.adFindPending = false;
         },
         [adFind.pending]: (state) => {
-            state.adFindPending = true;
+          state.adFindPending = true;
         },
         [adFindById.fulfilled]: (state, action) => {
-            state.adFindById = action.payload;
+          state.adFindById = action.payload;
+        },
+        [aboutUserById.fulfilled]: (state, action) => {
+          state.userFindById = action.payload;
+        },
+        [changeAvatar.fulfilled]: (state, action) => {
+          state.changeAvatar = action.payload;
         }
     }
 });
@@ -87,4 +166,4 @@ let promiseReducer = promiseSlice.reducer;
 
 let { clearAd } = promiseSlice.actions;
 
-export { promiseReducer, adFind, clearAd, adFindById };
+export { promiseReducer, adFind, clearAd, adFindById, newComment, aboutUserById, changeAvatar };

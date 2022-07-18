@@ -14,7 +14,7 @@ let Main = function() {
             <h1 className="visually-hidden">Головна сторінка біржи</h1>
             <Routes>
                 <Route path="/" element={<AdList/>}/>
-                <Route path="/profile/:id" element={
+                <Route path="/profile/:_id" element={
                     <ProtectedRoute roles={["user"]} fallback="/login" component={<Profile/>}/>
                 }/>
                 <Route path="/create-ad" element={
