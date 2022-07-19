@@ -125,6 +125,31 @@ let aboutUserById = createAsyncThunk(
   }
 )
 
+let uploadFiles = createAsyncThunk(
+  "promise/uploadFiles",
+  async function({files}) {
+    let result = await Promise.all(files.map(file => uploadFile(file)));
+
+    return result;
+  }
+);
+
+let saveAdState = createAsyncThunk(
+  "promise/saveAdState",
+  async function({state}) {
+    console.log(state);
+    let result = await GQL(`mutation newAd($ad: AdInput) {
+        AdUpsert(ad: $ad) {
+          _id
+        }
+      }`, {
+        ad: {...state, images: state.images.map(imag => ({_id: imag._id}))}
+      })
+
+    return result;
+  }
+);
+
 let promiseSlice = createSlice({
     name: "promise",
     initialState: {
@@ -133,7 +158,9 @@ let promiseSlice = createSlice({
         adFindPending: false,
         adFindById: {images: [], tags: [], comments: []},
         userFindById:  {},
-        changeAvatar: {}
+        changeAvatar: {},
+        uploadFiles: [],
+        saveAdState: {}
     },
     reducers: {
         clearAd(state) {
@@ -158,6 +185,12 @@ let promiseSlice = createSlice({
         },
         [changeAvatar.fulfilled]: (state, action) => {
           state.changeAvatar = action.payload;
+        },
+        [uploadFiles.fulfilled]: (state, action) => {
+          state.uploadFiles = action.payload;
+        },
+        [saveAdState.fulfilled]: (state, action) => {
+          state.saveAdState = action.payload;
         }
     }
 });
@@ -166,4 +199,12 @@ let promiseReducer = promiseSlice.reducer;
 
 let { clearAd } = promiseSlice.actions;
 
-export { promiseReducer, adFind, clearAd, adFindById, newComment, aboutUserById, changeAvatar };
+export { promiseReducer, 
+         adFind, 
+         clearAd, 
+         adFindById, 
+         newComment, 
+         aboutUserById, 
+         changeAvatar, 
+         uploadFiles, 
+         saveAdState };

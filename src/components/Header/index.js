@@ -43,7 +43,7 @@ let Header = function() {
                     </li>
                     <li className="header__nav-item">
                         <Link className="header__nav-link"
-                              to="/create-ad">
+                              to="/create-ad/new">
                             {LANGUAGE[lang].navCreateAd}
                         </Link>
                     </li>
