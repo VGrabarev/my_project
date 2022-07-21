@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { adFind, clearAd, adFindOnlyTitle, clearAdFindTitleOnly } from "../../store/promiseReducer.js";
-import { BACKEND_URL } from "../../constants/index.js";
+import { BACKEND_URL, DEFAULT_IMG } from "../../constants/index.js";
 import LANGUAGE from "../../language/index.js";
 
 let AdList = function() {
@@ -118,7 +118,7 @@ let AdList = function() {
                             <img className="ad-list__img"
                                  src={item.images.length ? 
                                       `${BACKEND_URL}/${item.images[0].url}` :
-                                      `${BACKEND_URL}/`}/>
+                                      DEFAULT_IMG}/>
                             <div className="ad-list__item-title">{item.title}</div>
                             <div className="ad-list__price">{LANGUAGE[lang].price}: {item.price}</div>
                             <div className="ad-list__time">{(new Date(+item.createdAt)).toLocaleString()}</div>

@@ -65,6 +65,8 @@ const LANGUAGE = {
         yourAddres: "Ваша адреса",
         enterAddres: "Уведіть вашу адресу",
         dropzone: "Перетягніть кілька файлів сюди або натисніть, щоб вибрати файли",
+        myAd: "Мое оголошення",
+        edit: "Редагувати",
     },
     en: {
         logo: "Super logo",
@@ -130,6 +132,8 @@ const LANGUAGE = {
         yourAddres: "Your address",
         enterAddres: "Enter your address",
         dropzone: "Drag multiple files here or click to select files",
+        myAd: "My advertisement",
+        edit: "Edit",
     }
 }
 

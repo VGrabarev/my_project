@@ -43,16 +43,18 @@ let jwtDecode = function(token) {
 
 const uploadFile = async function(file) {
     let fd = new FormData();
-  
-    fd.append("photo", file);
-  
-    const res = await fetch(`${BACKEND_URL}/upload`, {
-      method: "POST",
-      headers: localStorage.authToken ? { Authorization: 'Bearer ' + localStorage.authToken } : {},
-      body: fd
-    });
-  
-    return res.json();
-  };
 
-export { GQL, jwtDecode, BACKEND_URL, uploadFile };
+    fd.append("photo", file);
+
+    const res = await fetch(`${BACKEND_URL}/upload`, {
+        method: "POST",
+        headers: localStorage.authToken ? { Authorization: 'Bearer ' + localStorage.authToken } : {},
+        body: fd
+    });
+
+    return res.json();
+};
+
+const DEFAULT_IMG = `${BACKEND_URL}/images/a2704c89e7ee36005223820ec5b6799a`;
+
+export { GQL, jwtDecode, BACKEND_URL, uploadFile, DEFAULT_IMG };

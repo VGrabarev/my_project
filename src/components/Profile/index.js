@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { aboutUserById } from "../../store/promiseReducer.js";
 import { userLogout } from "../../store/authenticationReducer.js";
-import { BACKEND_URL } from "../../constants/index.js";
+import { BACKEND_URL, DEFAULT_IMG } from "../../constants/index.js";
 import Dropzone from "./Dropzone.js";
 import LANGUAGE from "../../language/index.js";
 
@@ -17,7 +17,7 @@ let Profile = function() {
 
     useEffect(() => {
         dispatch(aboutUserById({_id: _id}));
-    }, [])
+    }, [_id])
 
     return (
         <section className="profile">
@@ -25,9 +25,8 @@ let Profile = function() {
             <div className="profile__head">
                 <img className="profile__avatar"
                      src={user?.avatar ?
-                         `${BACKEND_URL}/${user?.avatar?.url}` :
-                         `${BACKEND_URL}/`} />
-
+                        `${BACKEND_URL}/${user?.avatar?.url}` :
+                        DEFAULT_IMG} />
                 <ul className="profile__head-container">
                     <li className="profile__head-item">
                         {owner.sub.id == _id && <Dropzone className="profile__head-button"/>}

@@ -2,16 +2,28 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { adFindById, newComment } from "../../store/promiseReducer.js";
-import { BACKEND_URL } from "../../constants/index.js";
+import { BACKEND_URL, DEFAULT_IMG } from "../../constants/index.js";
 import LANGUAGE from "../../language/index.js";
-import Slider from "./Slider/index.js";
+import Slider from "react-slick";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 let Ad = function() {
     let adById = useSelector((state) => state.promise.adFindById);
     let lang = useSelector((state) => state.siteSettings.language);
+    let owner = useSelector((state) => state.auth.payload);
     let {_id} = useParams();
     let textArea = useRef();
     let dispatch = useDispatch();
+
+    const SLIDER_SETTINGS = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    };
 
     useEffect(() => {
         dispatch(adFindById({_id}));
@@ -21,21 +33,30 @@ let Ad = function() {
         <section className="ad">
             <h2 className="ad__title">{LANGUAGE[lang].advertisement}</h2>
             <div className="ad__slider-wrapper">
-                <Slider>
-                    {adById.images.map((imag, index) => 
-                        <img key={index}
-                             src={`${BACKEND_URL}/${imag.url}`} />
-                    )}
+                <Slider {...SLIDER_SETTINGS}>
+                    {adById.images.length ? 
+                     adById.images.map((imag, index) => 
+                     <div key={index}>
+                        <img src={`${BACKEND_URL}/${imag.url}`} />
+                     </div>) : 
+                     <div>
+                        <img src={DEFAULT_IMG} />
+                     </div>}
                 </Slider>
             </div>
             <div className="ad__owner-wrapper">
-                <h3 className="ad__owner-title">{LANGUAGE[lang].owner}</h3>
+                <h3 className="ad__owner-title">{owner.sub.id === adById?.owner?._id ? LANGUAGE[lang].myAd : LANGUAGE[lang].owner}</h3>
+                {owner.sub.id === adById?.owner?._id ?
+                <Link className="ad__edit"
+                      to={`/create-ad/${adById._id}`}>
+                    {LANGUAGE[lang].edit}
+                </Link> :
                 <Link className="ad__owner-link"
-                      to={`/profile/${adById.owner?._id}`}>
+                        to={`/profile/${adById.owner?._id}`}>
                     <img className="ad__owner-img"
-                         src={adById.owner?.avatar ? `${BACKEND_URL}/${adById.owner.avatar.url}` : `${BACKEND_URL}`}/>
+                            src={adById.owner?.avatar ? `${BACKEND_URL}/${adById.owner.avatar.url}` : DEFAULT_IMG}/>
                     <span>{adById.owner?.login}</span>
-                </Link>
+                </Link>}
             </div>
             <div className="ad__ad-info-wrapper">
                 <h3 className="ad__info-title">{adById.title}</h3>
@@ -55,7 +76,7 @@ let Ad = function() {
                             <Link className="ad__comment-link"
                                   to={`/profile/${comment.owner._id}`}>
                                 <img className="ad__comment-img"
-                                     src={comment.owner.avatar ? `${BACKEND_URL}/${comment.owner.avatar.url}` : `${BACKEND_URL}/`}/>
+                                     src={comment.owner.avatar ? `${BACKEND_URL}/${comment.owner.avatar.url}` : DEFAULT_IMG}/>
                                 <span className="ad__comment-login">{comment.owner.login}</span>
                             </Link>
                             <p className="ad__comment-text">{comment.text}</p>
