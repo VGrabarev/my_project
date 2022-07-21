@@ -40,6 +40,10 @@
             opacity: 0.6;
         }
     }
+    &__failed {
+        color: red;
+        margin-bottom: 10px;
+    }
     &__other-list {
         list-style: none;
         margin: 0;

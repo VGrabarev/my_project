@@ -6,7 +6,8 @@ import LANGUAGE from "../../language/index.js";
 
 
 let Login = function() {
-    let lang = useSelector((state) => state.siteSettings.language)
+    let lang = useSelector((state) => state.siteSettings.language);
+    let loginFailed = useSelector((state) => state.auth.loginFailed);
     let dispatch = useDispatch();
     let login = useRef("");
     let password = useRef("");
@@ -43,6 +44,7 @@ let Login = function() {
                                                            password: password.current.value}))}>
                 {LANGUAGE[lang].enter}
             </button>
+            {loginFailed && <div className="login__failed">{LANGUAGE[lang].loginFailed}</div>}
             <ul className="login__other-list">
                 <li className="login__other-item">
                     <Link className="login__link"

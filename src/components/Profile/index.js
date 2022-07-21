@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { aboutUserById } from "../../store/promiseReducer.js";
+import { aboutUserById, adFindOnlyTitle, clearAdFindTitleOnly } from "../../store/promiseReducer.js";
 import { userLogout } from "../../store/authenticationReducer.js";
 import { BACKEND_URL, DEFAULT_IMG } from "../../constants/index.js";
 import Dropzone from "./Dropzone.js";
@@ -10,6 +10,7 @@ import LANGUAGE from "../../language/index.js";
 let Profile = function() {
     const [show, setShow] = useState({info: true, ad: false, message: false});
     let user = useSelector((state) => state.promise.userFindById);
+    let userAd = useSelector((state) => state.promise.adFindTitleOnlyArr);
     let owner = useSelector((state) => state.auth.payload);
     let lang = useSelector((state) => state.siteSettings.language);
     let {_id} = useParams();
@@ -17,7 +18,11 @@ let Profile = function() {
 
     useEffect(() => {
         dispatch(aboutUserById({_id: _id}));
-    }, [_id])
+        dispatch(adFindOnlyTitle({_id: _id}));
+        return () => {
+            dispatch(clearAdFindTitleOnly());
+        }
+    }, [_id]);
 
     return (
         <section className="profile">
@@ -58,7 +63,7 @@ let Profile = function() {
                             style={{
                                 backgroundColor: `${show.ad ? "rgba(182, 182, 182, 0.2)" : "rgb(160, 160, 160)"}` 
                              }}
-                            onClick={() => setShow({info: false, ad: true, message: false})}>{LANGUAGE[lang].advertisement}</button>
+                            onClick={() => setShow({info: false, ad: true, message: false})}>{owner.sub.id == _id ? LANGUAGE[lang].myAd : LANGUAGE[lang].advertisement}</button>
                 </li>
                 {owner.sub.id == _id && 
                     <li>
@@ -98,9 +103,14 @@ let Profile = function() {
                 </table>
             </div>}
             {show.ad && 
-            <div className="profile__info">
-                <h3 className="profile__info-title">Объявления</h3>
-            </div>}
+            <ul className="profile__info">
+                {userAd.length ?
+                 userAd.map((ad, index) => 
+                 <li key={index}>
+                    {index + 1}: <Link to={`/ad/${ad._id}`}>{ad.title}</Link>
+                 </li>) :
+                 <li>{LANGUAGE[lang].noAds}</li>}
+            </ul>}
             {show.message && 
             <div className="profile__info">
                 <h3 className="profile__info-title">Сообщения</h3>

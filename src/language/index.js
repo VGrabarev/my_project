@@ -67,6 +67,8 @@ const LANGUAGE = {
         dropzone: "Перетягніть кілька файлів сюди або натисніть, щоб вибрати файли",
         myAd: "Мое оголошення",
         edit: "Редагувати",
+        noAds: "Оголошення відсутні",
+        loginFailed: "Невірний логін або пароль",
     },
     en: {
         logo: "Super logo",
@@ -134,6 +136,8 @@ const LANGUAGE = {
         dropzone: "Drag multiple files here or click to select files",
         myAd: "My advertisement",
         edit: "Edit",
+        noAds: "There are no ads",
+        loginFailed: "Invalid login or password",
     }
 }
 

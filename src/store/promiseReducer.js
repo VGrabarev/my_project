@@ -23,13 +23,14 @@ let adFind = createAsyncThunk(
 
 let adFindOnlyTitle = createAsyncThunk(
   "promise/adFindOnlyTitle",
-  async function({search, limit = 10}) {
+  async function({_id, search = "", limit = 10}) {
     let result = await GQL(`query userAdFindById($query: String) {
       AdFind(query: $query) {
           _id title
         }
       }`, {
-      query: JSON.stringify([{$or:[{title: `/${search}/`}, {description: `/${search}/`}]},
+      query: JSON.stringify([{"___owner": _id,
+                              $or:[{title: `/${search}/`}, {description: `/${search}/`}]},
                               {"sort": [{"_id": -1}],
                               "limit": [limit]}])});
 
