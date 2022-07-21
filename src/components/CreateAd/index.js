@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { saveAdState } from "../../store/promiseReducer.js";
 import { BACKEND_URL } from "../../constants/index.js";
+import LANGUAGE from "../../language/index.js";
  
 const SortableContainer = sortableContainer(({children}) => {
     return (
@@ -26,6 +27,7 @@ let CreateAd = function() {
     let [state, setState] = useState({images: []});
     let ad = useSelector((state) => state.promise.adFindById);
     let uploadFiles = useSelector((state) => state.promise.uploadFiles);
+    let lang = useSelector((state) => state.siteSettings.language);
     let {_id} = useParams();
     let dispatch = useDispatch();
 
@@ -45,22 +47,22 @@ let CreateAd = function() {
     };
 
     const selectTags = [
-        { value: 'Детский мир', label: 'Детский мир' },
-        { value: 'Недвижимость', label: 'Недвижимость' },
-        { value: 'Авто', label: 'Авто' },
-        { value: 'Запчасти для транспорта', label: 'Запчасти для транспорта' },
-        { value: 'Работа', label: 'Работа' },
-        { value: 'Животные', label: 'Животные' },
-        { value: 'Дом и сад', label: 'Дом и сад' },
-        { value: 'Электроника', label: 'Электроника' },
-        { value: 'Хобби, отдых и спорт', label: 'Хобби, отдых и спорт' },
-        { value: 'Обмен', label: 'Обмен' },
-        { value: 'Медицина', label: 'Медицина' }
+        { value: `${LANGUAGE[lang].selectTags.childWorld}`, label: `${LANGUAGE[lang].selectTags.childWorld}` },
+        { value: `${LANGUAGE[lang].selectTags.realEstate}`, label: `${LANGUAGE[lang].selectTags.realEstate}` },
+        { value: `${LANGUAGE[lang].selectTags.car}`, label: `${LANGUAGE[lang].selectTags.car}` },
+        { value: `${LANGUAGE[lang].selectTags.spare}`, label: `${LANGUAGE[lang].selectTags.spare}` },
+        { value: `${LANGUAGE[lang].selectTags.work}`, label: `${LANGUAGE[lang].selectTags.work}` },
+        { value: `${LANGUAGE[lang].selectTags.animal}`, label: `${LANGUAGE[lang].selectTags.animal}` },
+        { value: `${LANGUAGE[lang].selectTags.houseAndGarden}`, label: `${LANGUAGE[lang].selectTags.houseAndGarden}` },
+        { value: `${LANGUAGE[lang].selectTags.electronics}`, label: `${LANGUAGE[lang].selectTags.electronics}` },
+        { value: `${LANGUAGE[lang].selectTags.hobbies}`, label: `${LANGUAGE[lang].selectTags.hobbies}` },
+        { value: `${LANGUAGE[lang].selectTags.exchange}`, label: `${LANGUAGE[lang].selectTags.exchange}` },
+        { value: `${LANGUAGE[lang].selectTags.medicine}`, label: `${LANGUAGE[lang].selectTags.medicine}` }
     ]
 
     return (
         <section className="new-ad">
-            <h2 className="new-ad__title">Создать объявление</h2>
+            <h2 className="new-ad__title">{LANGUAGE[lang].createAd}</h2>
             <div className="new-ad__container">
                 <div className="new-ad__dropzone-container">
                     <Dropzone/>
@@ -69,30 +71,30 @@ let CreateAd = function() {
                     </SortableContainer>
                 </div>
                 <div className="new-ad__ad-info-container">
-                    <label className="new-ad__label">Оглавление<br/>
+                    <label className="new-ad__label">{LANGUAGE[lang].title}<br/>
                         <input type="text"
-                               placeholder="Введите оглавление"
+                               placeholder={LANGUAGE[lang].enterTitle}
                                value={state.title}
                                onChange={(evt) => setState({...state, title: evt.target.value})} />
                     </label>
-                    <label className="new-ad__label">Описание<br/>
-                        <textarea placeholder="Введите описание"
+                    <label className="new-ad__label">{LANGUAGE[lang].description}<br/>
+                        <textarea placeholder={LANGUAGE[lang].enterDescription}
                                   value={state.description}
                                   onChange={(evt) => setState({...state, description: evt.target.value})} />
                     </label>
-                    <label className="new-ad__label">Выберите один или несколько категорий которые больше всего подходят вашему объявлению<br/>
+                    <label className="new-ad__label">{LANGUAGE[lang].select}<br/>
                         <Select isMulti
                                 name="tags"
                                 options={selectTags}
                                 onChange={(tags) => setState({...state, tags: tags.map(tag => tag.label)})} />
                     </label>
-                    <label className="new-ad__label">Введите ваш адрес<br/>
+                    <label className="new-ad__label">{LANGUAGE[lang].yourAddres}<br/>
                         <input type="text"
-                               placeholder="Введите ваш адрес"
+                               placeholder={LANGUAGE[lang].enterAddres}
                                value={state.address}
                                onChange={(evt) => setState({...state, address: evt.target.value})} />
                     </label>
-                    <label className="new-ad__label">Цена:<br/>
+                    <label className="new-ad__label">{LANGUAGE[lang].price}:<br/>
                         <input type="number"
                                value={state.price}
                                onChange={(evt) => setState({...state, price: +evt.target.value})} />
@@ -100,7 +102,7 @@ let CreateAd = function() {
                     <button onClick={() => {
                         dispatch(saveAdState({state: state}));
                     }}>
-                        Создать
+                        {LANGUAGE[lang].createAd}
                     </button>
                 </div>
             </div>

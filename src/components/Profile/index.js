@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { aboutUserById } from "../../store/promiseReducer.js";
 import { userLogout } from "../../store/authenticationReducer.js";
 import { BACKEND_URL } from "../../constants/index.js";
@@ -28,10 +28,23 @@ let Profile = function() {
                          `${BACKEND_URL}/${user?.avatar?.url}` :
                          `${BACKEND_URL}/`} />
 
-                <div className="profile__head-container">
-                    {owner.sub.id == _id && <Dropzone />}
-                    {owner.sub.id == _id && <button onClick={() => dispatch(userLogout())}>{LANGUAGE[lang].logout}</button>}
-                </div>
+                <ul className="profile__head-container">
+                    <li className="profile__head-item">
+                        {owner.sub.id == _id && <Dropzone className="profile__head-button"/>}
+                    </li>
+                    <li className="profile__head-item">
+                        {owner.sub.id == _id && <Link className="profile__head-button"
+                                                      to="/password-change">
+                                                    {LANGUAGE[lang].passwordChange}
+                                                </Link>}
+                    </li>
+                    <li className="profile__head-item">
+                        {owner.sub.id == _id && <button className="profile__head-button"
+                                                        onClick={() => dispatch(userLogout())}>
+                                                    {LANGUAGE[lang].logout}
+                                                </button>}
+                    </li>
+                </ul>
             </div>
             <ul className="profile__list">
                 <li>

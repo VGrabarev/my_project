@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeAvatar } from "../../store/promiseReducer.js";
 import LANGUAGE from '../../language/index.js';
 
-function Dropzone() {
+function Dropzone(props) {
     const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
     let lang = useSelector((state) => state.siteSettings.language);
     let id = useSelector((state) => state.auth.payload.sub.id);
@@ -20,7 +20,7 @@ function Dropzone() {
         <section className="container">
             <div {...getRootProps({className: 'dropzone'})}>
                 <input name="photo" {...getInputProps()} />
-                <button>{LANGUAGE[lang].avatarChange}</button>
+                <button className={props.className}>{LANGUAGE[lang].avatarChange}</button>
             </div>
         </section>
     );

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
-import { adFind, clearAd } from "../../store/promiseReducer.js";
+import { Link } from "react-router-dom";
+import { adFind, clearAd, adFindOnlyTitle, clearAdFindTitleOnly } from "../../store/promiseReducer.js";
 import { BACKEND_URL } from "../../constants/index.js";
 import LANGUAGE from "../../language/index.js";
 
@@ -14,10 +14,12 @@ let AdList = function() {
     let lang = useSelector((state) => state.siteSettings.language);
     let adArr = useSelector((state) => state.promise.adArr);
     let pending = useSelector((state) => state.promise.adFindPending);
+    let adTitleOnly = useSelector((state) => state.promise.adFindTitleOnlyArr);
     let dispatch = useDispatch();
     let [listSize, setListSize] = useState({width: 0, height: 0});
     let list = useRef(null);
     let myRef = useRef(false);
+    let search = useRef();
 
     let numberItemsPerLine = Math.trunc(window.innerWidth / (LIST_ITEM_WIDTH + SPACE_BETWEEN));
 
@@ -56,20 +58,46 @@ let AdList = function() {
         return () => {
             if(auth === "user") {
                 dispatch(clearAd());
+                dispatch(clearAdFindTitleOnly());
             };
         };
     }, []);
 
     return (
         <section className="ad-list">
+            {auth === "user" && 
             <div className="ad-list__search-container">
                 <input className="ad-list__search"
                        type="text"
-                       placeholder={LANGUAGE[lang].search} />
-                <button className="ad-list__button-search">
+                       ref={search}
+                       placeholder={LANGUAGE[lang].search}
+                       onChange={() => {
+                            if(search.current.value !== "") {
+                                dispatch(adFindOnlyTitle({search: search.current.value}));
+                            } else {
+                                dispatch(clearAdFindTitleOnly());
+                            };
+                       }}/>
+                <button className="ad-list__button-search"
+                        onClick={() => {
+                            dispatch(clearAd());
+                            dispatch(clearAdFindTitleOnly());
+                            dispatch(adFind({search: search.current.value}));
+                        }}>
                     <span className="visually-hidden">Search</span>
                 </button>
-            </div>
+                {!!adTitleOnly.length && <ul className="ad-list__ad-title-container">
+                    {adTitleOnly.map((item, index) => 
+                        <li className="ad-list__ad-title-item"
+                            key={index}>
+                            <Link className="ad-list__ad-title-link"
+                                  to={`/ad/${item._id}`}>
+                                {item.title}
+                            </Link>
+                        </li>
+                    )}
+                </ul>}
+            </div>}
             <h2 className="ad-list__title">{LANGUAGE[lang].advertisement}</h2>
             {auth === "anon" ? <div>{LANGUAGE[lang].adListAnonHidden}</div> : 
             <ul className="ad-list__list"

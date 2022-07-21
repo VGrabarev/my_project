@@ -21,6 +21,22 @@ let adFind = createAsyncThunk(
     }
 );
 
+let adFindOnlyTitle = createAsyncThunk(
+  "promise/adFindOnlyTitle",
+  async function({search, limit = 10}) {
+    let result = await GQL(`query userAdFindById($query: String) {
+      AdFind(query: $query) {
+          _id title
+        }
+      }`, {
+      query: JSON.stringify([{$or:[{title: `/${search}/`}, {description: `/${search}/`}]},
+                              {"sort": [{"_id": -1}],
+                              "limit": [limit]}])});
+
+    return result;
+  }
+);
+
 let adFindById = createAsyncThunk(
     "promise/adFindById",
     async function({_id}) {
@@ -137,7 +153,6 @@ let uploadFiles = createAsyncThunk(
 let saveAdState = createAsyncThunk(
   "promise/saveAdState",
   async function({state}) {
-    console.log(state);
     let result = await GQL(`mutation newAd($ad: AdInput) {
         AdUpsert(ad: $ad) {
           _id
@@ -160,12 +175,16 @@ let promiseSlice = createSlice({
         userFindById:  {},
         changeAvatar: {},
         uploadFiles: [],
-        saveAdState: {}
+        saveAdState: {},
+        adFindTitleOnlyArr: []
     },
     reducers: {
         clearAd(state) {
             state.adArr = [];
             state.skip = 0;
+        },
+        clearAdFindTitleOnly(state) {
+          state.adFindTitleOnlyArr = [];
         }
     },
     extraReducers: {
@@ -191,13 +210,16 @@ let promiseSlice = createSlice({
         },
         [saveAdState.fulfilled]: (state, action) => {
           state.saveAdState = action.payload;
+        },
+        [adFindOnlyTitle.fulfilled]: (state, action) => {
+          state.adFindTitleOnlyArr = action.payload;
         }
     }
 });
 
 let promiseReducer = promiseSlice.reducer;
 
-let { clearAd } = promiseSlice.actions;
+let { clearAd, clearAdFindTitleOnly } = promiseSlice.actions;
 
 export { promiseReducer, 
          adFind, 
@@ -207,4 +229,6 @@ export { promiseReducer,
          aboutUserById, 
          changeAvatar, 
          uploadFiles, 
-         saveAdState };
+         saveAdState,
+         adFindOnlyTitle,
+         clearAdFindTitleOnly };

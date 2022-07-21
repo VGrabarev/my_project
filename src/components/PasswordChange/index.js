@@ -1,12 +1,15 @@
 import { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { changePassword } from "../../store/authenticationReducer.js";
 import LANGUAGE from "../../language/index.js";
 
 let PasswordChange = function() {
     let lang = useSelector((state) => state.siteSettings.language);
-    let login = useRef("");
-    let password = useRef("");
-    let passwordRepeat = useRef("");
+    let userLogin = useSelector((state) => state.auth?.payload?.sub?.login);
+    let login = useRef();
+    let password = useRef();
+    let newPassword = useRef();
+    let dispatch = useDispatch();
 
     return (
         <section className="password-change">
@@ -21,7 +24,9 @@ let PasswordChange = function() {
                            id="login"
                            type="text"
                            ref={login}
-                           placeholder={LANGUAGE[lang].login}/>
+                           placeholder={LANGUAGE[lang].login}
+                           defaultValue={userLogin ? userLogin : ""}
+                           disabled={userLogin ? true : false}/>
                 </li>
                 <li className="password-change__item">
                     <label className="password-change__label"
@@ -36,17 +41,22 @@ let PasswordChange = function() {
                 </li>
                 <li className="password-change__item">
                     <label className="password-change__label"
-                           htmlFor="passwordRepeat">
+                           htmlFor="newPassword">
                         {LANGUAGE[lang].newPassword}
                     </label><br/>
                     <input className="password-change__input"
-                           id="passwordRepeat"
+                           id="newPassword"
                            type="password"
-                           ref={passwordRepeat}
+                           ref={newPassword}
                            placeholder={LANGUAGE[lang].newPassword}/>
                 </li>
             </ul>
-            <button className="password-change__button">
+            <button className="password-change__button"
+                    onClick={() => dispatch(changePassword({
+                                                            login: login.current.value,
+                                                            password: password.current.value,
+                                                            newPassword: newPassword.current.value
+                                                            }))}>
                 {LANGUAGE[lang].change}
             </button>
         </section>

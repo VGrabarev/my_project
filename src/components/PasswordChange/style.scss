@@ -25,6 +25,9 @@
         &:hover {
             background-color: rgb(179, 179, 179);
         }
+        &:disabled:hover {
+            background-color: rgb(215, 215, 215);
+        }
     }
     &__button {
         cursor: pointer;
